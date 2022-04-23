@@ -1,20 +1,38 @@
 package counter
 
 import (
+	"log"
+	"os"
 	"testing"
+	"time"
 
 	"github.com/alicebob/miniredis"
+	"github.com/elliotchance/redismock"
 	"github.com/go-redis/redis"
 )
 
 var redisServer *miniredis.Miniredis
 
-func TestCounterAdd(t *testing.T) {
-	setup()
-	defer redisServer.Close()
+func Test(m *testing.M) {
+	// setup()
+	// defer redisServer.Close()
+	mr, err := miniredis.Run()
+	if err != nil {
+		log.Fatal(err)
+	}
+	RedisConnector = redis.NewClient(&redis.Options{
+		Addr: mr.Addr(),
+	})
+	code := m.Run()
+	os.Exit(code)
+	//add := counteradd("10")
+	//assert.Equal(t, 10, add)
+}
 
-	add := counteradd("10")
-	t.Errorf("Counteradd(%s) =>, want %d, %d", "10", 10, add)
+func TestCounterAdd(m *testing.M) {
+	exp := time.Duration(0)
+	mock := redismock.NewNiceMock(RedisConnector)
+	mock.On("set", "key", "val", exp).Return(redis.NewStatusResult("", nil))
 }
 
 func setup() {
