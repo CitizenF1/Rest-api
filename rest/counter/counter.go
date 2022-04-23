@@ -32,6 +32,24 @@ func CounterAdd(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, value)
 }
 
+func counteradd(val string) int {
+	var value int
+	// GET key before add for check value
+	var v, _ = RedisConnector.Get("key").Result()
+	if v != "" {
+		value, _ = strconv.Atoi(v)
+		count, _ := strconv.Atoi(val)
+		value = value + count
+		RedisConnector.Set("key", value, 0).Err()
+	} else {
+		err := RedisConnector.Set("key", val, 0).Err()
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+	return value
+}
+
 func CounterSub(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	var value int
