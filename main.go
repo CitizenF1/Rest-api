@@ -4,7 +4,6 @@ import (
 	"log"
 	"net/http"
 
-	"rest-api/database/db"
 	"rest-api/rest/counter"
 	"rest-api/rest/email"
 	"rest-api/rest/substr"
@@ -16,7 +15,6 @@ import (
 func main() {
 
 	router := mux.NewRouter()
-	counter.RedisConnector = db.RedisConnect()
 
 	router.HandleFunc("/rest/substr/find", substr.GetSubStr)
 	router.HandleFunc("/rest/email/check", email.Email)

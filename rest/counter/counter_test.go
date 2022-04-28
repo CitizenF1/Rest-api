@@ -1,53 +1,42 @@
 package counter
 
-import (
-	"log"
-	"os"
-	"testing"
-	"time"
+// var redisServer *miniredis.Miniredis
 
-	"github.com/alicebob/miniredis"
-	"github.com/elliotchance/redismock"
-	"github.com/go-redis/redis"
-)
+// func Test(m *testing.M) {
+// 	// setup()
+// 	// defer redisServer.Close()
+// 	mr, err := miniredis.Run()
+// 	if err != nil {
+// 		log.Fatal(err)
+// 	}
+// 	RedisConnector = redis.NewClient(&redis.Options{
+// 		Addr: mr.Addr(),
+// 	})
+// 	code := m.Run()
+// 	os.Exit(code)
+// 	//add := counteradd("10")
+// 	//assert.Equal(t, 10, add)
+// }
 
-var redisServer *miniredis.Miniredis
+// func TestCounterAdd(m *testing.M) {
+// 	exp := time.Duration(0)
+// 	mock := redismock.NewNiceMock(RedisConnector)
+// 	mock.On("set", "key", "val", exp).Return(redis.NewStatusResult("", nil))
+// }
 
-func Test(m *testing.M) {
-	// setup()
-	// defer redisServer.Close()
-	mr, err := miniredis.Run()
-	if err != nil {
-		log.Fatal(err)
-	}
-	RedisConnector = redis.NewClient(&redis.Options{
-		Addr: mr.Addr(),
-	})
-	code := m.Run()
-	os.Exit(code)
-	//add := counteradd("10")
-	//assert.Equal(t, 10, add)
-}
+// func setup() {
+// 	redisServer = mockRedis()
+// 	RedisConnector = redis.NewClient(&redis.Options{
+// 		Addr: redisServer.Addr(),
+// 	})
+// }
 
-func TestCounterAdd(m *testing.M) {
-	exp := time.Duration(0)
-	mock := redismock.NewNiceMock(RedisConnector)
-	mock.On("set", "key", "val", exp).Return(redis.NewStatusResult("", nil))
-}
+// func mockRedis() *miniredis.Miniredis {
+// 	s, err := miniredis.Run()
 
-func setup() {
-	redisServer = mockRedis()
-	RedisConnector = redis.NewClient(&redis.Options{
-		Addr: redisServer.Addr(),
-	})
-}
+// 	if err != nil {
+// 		panic(err)
+// 	}
 
-func mockRedis() *miniredis.Miniredis {
-	s, err := miniredis.Run()
-
-	if err != nil {
-		panic(err)
-	}
-
-	return s
-}
+// 	return s
+// }
